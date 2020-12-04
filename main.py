@@ -49,6 +49,8 @@ def main():
     lives = 5
     main_font = pygame.font.SysFont('comicsans', 50)
 
+    player_vel = 5 # velocity relative to fps because the time you are pressed if more fps more accounted
+
     ship = Ship(300, 650)
 
     clock = pygame.time.Clock()
@@ -62,7 +64,7 @@ def main():
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() -10, 10)) # Dynamic fashion goes with all heights, widths
-
+ 
         ship.draw(WIN)
 
         pygame.display.update() # refresh the display, (redessine tout tout le temps)
@@ -72,7 +74,16 @@ def main():
         redraw_window()
 
         for event in pygame.event.get(): # pygame events
-            if event.type == pygame.QUIT: # other ex: KEYDOWN
+            if event.type == pygame.QUIT: # other ex: KEYDOWN but here only registers 1 key at a time so not define here
                 run = False
 
+        keys = pygame.key.get_pressed() # checks every 60times/s if something got pressed
+        if keys[pygame.K_a]: # left
+            ship.x -= player_vel # moves 1 px to the left
+        if keys[pygame.K_d]: # right
+            ship.x += player_vel
+        if keys[pygame.K_w]: # up
+            ship.y -= player_vel
+        if keys[pygame.K_s]: # down
+            ship.y += player_vel
 main()
