@@ -78,12 +78,12 @@ def main():
                 run = False
 
         keys = pygame.key.get_pressed() # checks every 60times/s if something got pressed
-        if keys[pygame.K_a]: # left
+        if keys[pygame.K_a] and ship.x - player_vel > 0: # left
             ship.x -= player_vel # moves 1 px to the left
-        if keys[pygame.K_d]: # right
+        if keys[pygame.K_d] and ship.x + player_vel + 50 < WIDTH: # right
             ship.x += player_vel
-        if keys[pygame.K_w]: # up
+        if keys[pygame.K_w] and ship.y - player_vel > 0: # up for all for the and is for the restriction not to live the window
             ship.y -= player_vel
-        if keys[pygame.K_s]: # down
+        if keys[pygame.K_s] and ship.y + player_vel + 50 < HEIGHT: # down
             ship.y += player_vel
 main()
