@@ -39,6 +39,12 @@ class Ship:
 
     def draw(self, window):
         window.blit(self.ship_img, (self.x, self.y))
+    
+    def get_width(self):
+        return self.ship_img.get_width() # to get width
+
+    def get_height(self):
+        return self.ship_img.get_height() # getter -> height (get_width and get_height native)
 
 
 class Player(Ship): # Inheriting Ship
@@ -48,6 +54,7 @@ class Player(Ship): # Inheriting Ship
         self.laser_img = YELLOW_LASER
         self.mask = pygame.mask.from_surface(self.ship_img) # mask is for collision (where pixels are)
         self.max_health = health
+    
 
 
 #main that makes the game run
@@ -89,10 +96,10 @@ def main():
         keys = pygame.key.get_pressed() # checks every 60times/s if something got pressed
         if keys[pygame.K_a] and player.x - player_vel > 0: # left
             player.x -= player_vel # moves 1 px to the left
-        if keys[pygame.K_d] and player.x + player_vel + 50 < WIDTH: # right
+        if keys[pygame.K_d] and player.x + player_vel + player.get_width() < WIDTH: # right
             player.x += player_vel
         if keys[pygame.K_w] and player.y - player_vel > 0: # up for all for the and is for the restriction not to live the window
             player.y -= player_vel
-        if keys[pygame.K_s] and player.y + player_vel + 50 < HEIGHT: # down
+        if keys[pygame.K_s] and player.y + player_vel + player.get_height() < HEIGHT: # down
             player.y += player_vel
 main()
