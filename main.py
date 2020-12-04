@@ -2,6 +2,7 @@ import pygame
 import os
 import time
 import random
+pygame.font.init() # to write ex: score
 
 # Game window
 WIDTH, HEIGHT = 750, 750
@@ -26,17 +27,29 @@ YELLOW_LASER = pygame.image.load(os.path.join('assets', 'pixel_laser_yellow.png'
 # Background
 BG = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'background-black.png')), (WIDTH, HEIGHT))
 
+     
+
 #main that makes the game run
 def main():
     run = True
     FPS = 60
+    level = 1
+    lives = 5
+    main_font = pygame.font.SysFont('comicsans', 50)
+
     clock = pygame.time.Clock()
 
     def redraw_window():
         WIN.blit(BG, (0, 0)) # blit takes an image and draws it to the window at the location indicated
         
-        pygame.display.update() # refresh the display, (redessine tout tout le temps)
+        # draw text
+        lives_label = main_font.render(f'Lives: {lives}', 1, (255, 255, 255)) #1 = antialising
+        level_label = main_font.render(f'Level: {level}', 1, (255, 255, 255))
 
+        WIN.blit(lives_label, (10, 10))
+        WIN.blit(level_label, (WIDTH - level_label.get_width() -10, 10)) # Dynamic fashion goes with all heights, widths
+
+        pygame.display.update() # refresh the display, (redessine tout tout le temps)
 
     while run:
         clock.tick(FPS)
