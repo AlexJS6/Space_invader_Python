@@ -38,7 +38,16 @@ class Ship:
         self.cool_down_counter = 0
 
     def draw(self, window):
-        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, 50, 50))
+        window.blit(self.ship_img, (self.x, self.y))
+
+
+class Player(Ship): # Inheriting Ship
+    def __init__(self, x, y, health = 100):
+        super().__init__(x, y, health) # super() calls whole Ship class -> __init__
+        self.ship_img = YELLOW_SPACE_SHIP
+        self.laser_img = YELLOW_LASER
+        self.mask = pygame.mask.from_surface(self.ship_img) # mask is for collision (where pixels are)
+        self.max_health = health
 
 
 #main that makes the game run
