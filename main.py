@@ -60,7 +60,7 @@ def main():
 
     player_vel = 5 # velocity relative to fps because the time you are pressed if more fps more accounted
 
-    ship = Ship(300, 650)
+    player = Player(300, 650)
 
     clock = pygame.time.Clock()
 
@@ -74,7 +74,7 @@ def main():
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() -10, 10)) # Dynamic fashion goes with all heights, widths
  
-        ship.draw(WIN)
+        player.draw(WIN)
 
         pygame.display.update() # refresh the display, (redessine tout tout le temps)
 
@@ -87,12 +87,12 @@ def main():
                 run = False
 
         keys = pygame.key.get_pressed() # checks every 60times/s if something got pressed
-        if keys[pygame.K_a] and ship.x - player_vel > 0: # left
-            ship.x -= player_vel # moves 1 px to the left
-        if keys[pygame.K_d] and ship.x + player_vel + 50 < WIDTH: # right
-            ship.x += player_vel
-        if keys[pygame.K_w] and ship.y - player_vel > 0: # up for all for the and is for the restriction not to live the window
-            ship.y -= player_vel
-        if keys[pygame.K_s] and ship.y + player_vel + 50 < HEIGHT: # down
-            ship.y += player_vel
+        if keys[pygame.K_a] and player.x - player_vel > 0: # left
+            player.x -= player_vel # moves 1 px to the left
+        if keys[pygame.K_d] and player.x + player_vel + 50 < WIDTH: # right
+            player.x += player_vel
+        if keys[pygame.K_w] and player.y - player_vel > 0: # up for all for the and is for the restriction not to live the window
+            player.y -= player_vel
+        if keys[pygame.K_s] and player.y + player_vel + 50 < HEIGHT: # down
+            player.y += player_vel
 main()
