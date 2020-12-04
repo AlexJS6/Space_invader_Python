@@ -27,7 +27,7 @@ YELLOW_LASER = pygame.image.load(os.path.join('assets', 'pixel_laser_yellow.png'
 # Background
 BG = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'background-black.png')), (WIDTH, HEIGHT))
 
-class = Ship:
+class Ship:
     def __init__(self, x, y, health = 100):
         self.x = x
         self.y = y
@@ -37,7 +37,8 @@ class = Ship:
         self.lasers = []
         self.cool_down_counter = 0
 
-    
+    def draw(self, window):
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, 50, 50))
 
 
 #main that makes the game run
@@ -47,6 +48,8 @@ def main():
     level = 1
     lives = 5
     main_font = pygame.font.SysFont('comicsans', 50)
+
+    ship = Ship(300, 650)
 
     clock = pygame.time.Clock()
 
@@ -59,6 +62,8 @@ def main():
 
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() -10, 10)) # Dynamic fashion goes with all heights, widths
+
+        ship.draw(WIN)
 
         pygame.display.update() # refresh the display, (redessine tout tout le temps)
 
