@@ -34,17 +34,17 @@ class Laser:
         self.img = img
         self.mask = pygame.mask.from_surface(self.img)
     
-    def.draw(self, window):
+    def draw(self, window):
         window.blit(self.img, (self.x, self.y))
 
     def move(self, vel):
         self.y += vel
 
     def off_screen(self, height):
-        return self.y =< height and self.y >= 0
+        return self.y <= height and self.y >= 0
 
     def collision(self, obj):
-        return collide(obj, self)
+        return collide(self, obj)
 
 
 class Ship:
@@ -59,6 +59,12 @@ class Ship:
 
     def draw(self, window):
         window.blit(self.ship_img, (self.x, self.y))
+
+    def shoot(self):
+        if self.cool_down_counter == 0:
+            laser = Laser(x, y, self.laser_img)
+            self.lasers.append(laser)
+            self.cool_down_counter = 1
     
     def get_width(self):
         return self.ship_img.get_width() # to get width
@@ -89,6 +95,11 @@ class Enemy(Ship):
 
     def move(self, vel):
         self.y += vel
+
+    def collide(obj1, obj2):
+        offset_x = obj2.x - obj1.x
+        offset_y = obj2.y - obj1.y
+        return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None # Give 2 mask if overlaps brings back a tuple
 
 
 #main that makes the game run
