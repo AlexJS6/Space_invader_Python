@@ -48,6 +48,8 @@ class Laser:
 
 
 class Ship:
+    COOLDOWN = 30
+
     def __init__(self, x, y, health = 100):
         self.x = x
         self.y = y
@@ -59,6 +61,12 @@ class Ship:
 
     def draw(self, window):
         window.blit(self.ship_img, (self.x, self.y))
+
+    def cooldown(self):
+        if self.cool_down_counter >= self.COOLDOWN:
+            self.cool_down_counter = 0
+        elif self.cool_down_counter > 0:
+            self.cool_down_counter += 1
 
     def shoot(self):
         if self.cool_down_counter == 0:
@@ -96,10 +104,10 @@ class Enemy(Ship):
     def move(self, vel):
         self.y += vel
 
-    def collide(obj1, obj2):
-        offset_x = obj2.x - obj1.x
-        offset_y = obj2.y - obj1.y
-        return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None # Give 2 mask if overlaps brings back a tuple
+def collide(obj1, obj2):
+    offset_x = obj2.x - obj1.x
+    offset_y = obj2.y - obj1.y
+    return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None # Give 2 mask if overlaps brings back a tuple
 
 
 #main that makes the game run
@@ -180,6 +188,8 @@ def main():
             player.y -= player_vel
         if keys[pygame.K_s] and player.y + player_vel + player.get_height() < HEIGHT: # down
             player.y += player_vel
+        if keys[pygame.K_SPACE]:
+            player.shoot()
 
         for enemy in enemies[:]: # [:] -> Copy of the list so not modify the list we are looping through
             enemy.move(enemy_vel)
