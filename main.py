@@ -114,6 +114,15 @@ class Player(Ship): # Inheriting Ship
                             if laser in self.lasers:
                                 self.lasers.remove(laser)
 
+    def draw(self, window):
+        super().draw(window)
+        self.healthbar(window)
+
+    def healthbar(self, window): # making green and red rectangles take a percentage of big rectangle
+        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y + self.ship_img.get_height() +10, self.ship_img.get_width(), 10))
+        pygame.draw.rect(window, (0, 255, 0), (self.x, self.y + self.ship_img.get_height() +10, self.ship_img.get_width() * (self.health / self.max_health), 10))
+
+
 class Enemy(Ship):
     COLOR_MAP = {
         'red': (RED_SPACE_SHIP, RED_LASER),
@@ -218,7 +227,7 @@ def main():
             player.x += player_vel
         if keys[pygame.K_w] and player.y - player_vel > 0: # up for all for the and is for the restriction not to live the window
             player.y -= player_vel
-        if keys[pygame.K_s] and player.y + player_vel + player.get_height() < HEIGHT: # down
+        if keys[pygame.K_s] and player.y + player_vel + player.get_height() +20 < HEIGHT: # down
             player.y += player_vel
         if keys[pygame.K_SPACE]:
             player.shoot()
