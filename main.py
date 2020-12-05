@@ -91,6 +91,7 @@ def main():
     clock = pygame.time.Clock()
 
     lost = False
+    lost_count = 0
 
     def redraw_window():
         WIN.blit(BG, (0, 0)) # blit takes an image and draws it to the window at the location indicated
@@ -115,9 +116,17 @@ def main():
 
     while run:
         clock.tick(FPS)
+        redraw_window()
 
         if lives <= 0 or player.health <= 0:
             lost = True
+            lost_count += 1
+
+        if lost: # It is saying if lost_counter > FPS * 3 (3 seconds) stop the game, else dont move anything (go back to while loop)
+            if lost_count > FPS * 3: # 3 seconds
+                run = False
+            else:
+                continue
 
         if len(enemies) == 0: #when no enemies anymore next level, harder wave, ...
             level += 1
@@ -147,6 +156,6 @@ def main():
                 lives -= 1
                 enemies.remove(enemy)
 
-        redraw_window()
+
 
 main()
