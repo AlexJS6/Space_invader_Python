@@ -41,7 +41,7 @@ class Laser:
         self.y += vel
 
     def off_screen(self, height):
-        return self.y <= height and self.y >= 0
+        return not(self.y <= height and self.y >= 0) # True if on the screen False if not
 
     def collision(self, obj):
         return collide(self, obj)
@@ -61,6 +61,19 @@ class Ship:
 
     def draw(self, window):
         window.blit(self.ship_img, (self.x, self.y))
+        for laser in self.lasers:
+            laser.draw(window)
+    
+    def move_lasers(self, vel, obj):
+        self.cooldown() # everytime we move the lasers we call this once a frame
+        for laser in self.lasers:
+            laser.move(vel)
+            if laser.off_screen(HEIGHT):
+                self.lasers.remove(laser)
+            elif laser.collision(obj):
+                obj.health -= 10
+                self.lasers.remove(laser)
+
 
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
@@ -70,7 +83,7 @@ class Ship:
 
     def shoot(self):
         if self.cool_down_counter == 0:
-            laser = Laser(x, y, self.laser_img)
+            laser = Laser(self.x, self.y, self.laser_img)
             self.lasers.append(laser)
             self.cool_down_counter = 1
     
@@ -80,7 +93,6 @@ class Ship:
     def get_height(self):
         return self.ship_img.get_height() # getter -> height (get_width and get_height native)
 
-
 class Player(Ship): # Inheriting Ship
     def __init__(self, x, y, health = 100):
         super().__init__(x, y, health) # super() calls whole Ship class -> __init__
@@ -88,6 +100,19 @@ class Player(Ship): # Inheriting Ship
         self.laser_img = YELLOW_LASER
         self.mask = pygame.mask.from_surface(self.ship_img) # mask is for collision (where pixels are)
         self.max_health = health
+
+    def move_lasers(self, vel, objs):
+            self.cooldown() # everytime we move the lasers we call this once a frame
+            for laser in self.lasers:
+                laser.move(vel)
+                if laser.off_screen(HEIGHT): # For every laser from Player if out of the screen remove it
+                    self.lasers.remove(laser) # If it has colided remove it
+                else:
+                    for obj in objs:
+                        if laser.collision(obj):
+                            objs.remove(obj)
+                            if laser in self.lasers:
+                                self.lasers.remove(laser)
 
 class Enemy(Ship):
     COLOR_MAP = {
@@ -124,8 +149,9 @@ def main():
     enemy_vel = 1
 
     player_vel = 5 # velocity relative to fps because the time you are pressed if more fps more accounted
+    laser_vel = 5
 
-    player = Player(300, 650)
+    player = Player(300, 630)
 
     clock = pygame.time.Clock()
 
@@ -193,10 +219,13 @@ def main():
 
         for enemy in enemies[:]: # [:] -> Copy of the list so not modify the list we are looping through
             enemy.move(enemy_vel)
+            enemy.move_lasers(laser_vel, player)
             if enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
+        
+        player.move_lasers(-laser_vel, enemies)
 
-
+#https://youtu.be/Q-__8Xw9KTM?t=5789
 
 main()
