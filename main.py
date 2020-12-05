@@ -55,7 +55,7 @@ class Player(Ship): # Inheriting Ship
         self.mask = pygame.mask.from_surface(self.ship_img) # mask is for collision (where pixels are)
         self.max_health = health
 
-class Ennemy(Ship):
+class Enemy(Ship):
     COLOR_MAP = {
         'red': (RED_SPACE_SHIP, RED_LASER),
         'green': (GREEN_SPACE_SHIP, GREEN_LASER),
@@ -75,9 +75,13 @@ class Ennemy(Ship):
 def main():
     run = True
     FPS = 60
-    level = 1
+    level = 0
     lives = 5
     main_font = pygame.font.SysFont('comicsans', 50)
+
+    enemies = [] # Stoe the enemies here
+    wave_length = 5 # Every level new wave
+    enemy_vel = 1
 
     player_vel = 5 # velocity relative to fps because the time you are pressed if more fps more accounted
 
@@ -95,13 +99,23 @@ def main():
         WIN.blit(lives_label, (10, 10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() -10, 10)) # Dynamic fashion goes with all heights, widths
  
+        for enemy in enemies:
+            enemy.draw(WIN) # Draw is inherited
+
         player.draw(WIN)
 
         pygame.display.update() # refresh the display, (redessine tout tout le temps)
 
     while run:
         clock.tick(FPS)
-        redraw_window()
+
+        if len(enemies) == 0: #when no enemies anymore next level, harder wave, ...
+            level += 1
+            wave_length += 5
+            for i in range(wave_length):
+                enemy = Enemy(random.randrange(50, WIDTH - 100), random.randrange(-1500, -100), random.choice(['red', 'blue', 'green'])) #spawn them and y is very big difference so it seems like spawning different time
+                enemies.append(enemy) # added to the enemies list
+
 
         for event in pygame.event.get(): # pygame events
             if event.type == pygame.QUIT: # other ex: KEYDOWN but here only registers 1 key at a time so not define here
@@ -116,4 +130,10 @@ def main():
             player.y -= player_vel
         if keys[pygame.K_s] and player.y + player_vel + player.get_height() < HEIGHT: # down
             player.y += player_vel
+
+        for enemy in enemies:
+            enemy.move(enemy_vel)
+
+        redraw_window()
+
 main()
