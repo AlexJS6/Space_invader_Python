@@ -78,6 +78,7 @@ def main():
     level = 0
     lives = 5
     main_font = pygame.font.SysFont('comicsans', 50)
+    lost_font = pygame.font.SysFont('comicsans', 60)
 
     enemies = [] # Stoe the enemies here
     wave_length = 5 # Every level new wave
@@ -88,6 +89,8 @@ def main():
     player = Player(300, 650)
 
     clock = pygame.time.Clock()
+
+    lost = False
 
     def redraw_window():
         WIN.blit(BG, (0, 0)) # blit takes an image and draws it to the window at the location indicated
@@ -104,10 +107,17 @@ def main():
 
         player.draw(WIN)
 
+        if lost:
+            lost_label = lost_font.render('YOU LOST!!', 1, (255, 255, 255))
+            WIN.blit(lost_label, (WIDTH/2 - lost_label.get_width()/2, 350)) # Math to put it in the middle
+
         pygame.display.update() # refresh the display, (redessine tout tout le temps)
 
     while run:
         clock.tick(FPS)
+
+        if lives <= 0 or player.health <= 0:
+            lost = True
 
         if len(enemies) == 0: #when no enemies anymore next level, harder wave, ...
             level += 1
