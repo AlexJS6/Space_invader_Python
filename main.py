@@ -218,7 +218,7 @@ def main():
 
         for event in pygame.event.get(): # pygame events
             if event.type == pygame.QUIT: # otherdwas ex: KEYDOWN but here only registers 1 key at a time so not define here
-                run = False
+                quit() # run = False
 
         keys = pygame.key.get_pressed() # checks every 60times/s if something got pressed
         if keys[pygame.K_a] and player.x - player_vel > 0: # left
@@ -248,5 +248,20 @@ def main():
         
         player.move_lasers(-laser_vel, enemies)
 
+def main_menu(): # We always come back to main_menu() because if mousebuttondown -> goes to main so it comes back down after
+    title_font = pygame.font.SysFont('comicsanc', 70)
+    run = True
+    while run:
+        WIN.blit(BG, (0, 0))
+        title_label = title_font.render('Pess the mouse to begin...', 1, (255, 255, 255))
+        WIN.blit(title_label, (WIDTH /2 - title_label.get_width()/2, 350))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: # If pusing quit button, quit() (quitting game)
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN: # If clicking mousebutton we can start the game (enter the main loop)
+                main()
 
-main()
+    pygame.quit()
+
+main_menu()
