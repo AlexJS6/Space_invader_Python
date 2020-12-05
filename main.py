@@ -118,7 +118,7 @@ def main():
 
 
         for event in pygame.event.get(): # pygame events
-            if event.type == pygame.QUIT: # other ex: KEYDOWN but here only registers 1 key at a time so not define here
+            if event.type == pygame.QUIT: # otherdwas ex: KEYDOWN but here only registers 1 key at a time so not define here
                 run = False
 
         keys = pygame.key.get_pressed() # checks every 60times/s if something got pressed
@@ -131,8 +131,11 @@ def main():
         if keys[pygame.K_s] and player.y + player_vel + player.get_height() < HEIGHT: # down
             player.y += player_vel
 
-        for enemy in enemies:
+        for enemy in enemies[:]: # [:] -> Copy of the list so not modify the list we are looping through
             enemy.move(enemy_vel)
+            if enemy.y + enemy.get_height() > HEIGHT:
+                lives -= 1
+                enemies.remove(enemy)
 
         redraw_window()
 
