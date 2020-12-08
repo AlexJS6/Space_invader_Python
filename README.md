@@ -10,12 +10,12 @@ This is one of my first projects in python and is strongly inspired from a youtu
 inspired from: https://www.youtube.com/watch?v=Q-__8Xw9KTM&t=5790s&ab_channel=TechWithTim
 
 ## Instructions to test the game
-- Open the 'Tetris_in_Python.exe' file
-- Download it, accept the antivirus messages, trust me :) OR NOT.
+- Open the 'Space_invader_Python_DL.exe' file
+- Download it, accept the antivirus messages.
 - Then choose were you want to install the game.
-- It will install a folder and in the folder there is a 'tetris.exe' file, open it.
+- It will install a folder and in the folder there is a 'main.exe' file, open it.
 - You might need to turn off the antivirus temporarily.
-- You can then play tetris and you will surely beat my highscore of 175 ;)
+- You can then play the game and will hopefully enjoy it! ;)
 
 ## The Game 
 
