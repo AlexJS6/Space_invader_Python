@@ -27,4 +27,4 @@ inspired from: https://www.youtube.com/watch?v=Q-__8Xw9KTM&t=5790s&ab_channel=Te
 
 ### Hope you enjoy it! 
 
-![Fun tetris Gif](https://media.giphy.com/media/5Tndtit6LsZmE/giphy.gif)
+![Fun tetris Gif](https://media1.giphy.com/media/l4KhQo2MESJkc6QbS/giphy.gif?cid=ecf05e47cfdx5xhnmw61je30ew7ig57wdokq3prv9p9jmzin&rid=giphy.gif)
