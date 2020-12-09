@@ -7,6 +7,7 @@
 ## My Project
 This little Saturday project is an old fun game, a space invader. I did this with the help of pygame to get better at python and to make a second game with it.
 This is one of my first projects in python and is strongly inspired from a youtube video.  
+The goal of the game is to destroy all incoming spaceships with your lasers and don't get hit.
 inspired from: https://www.youtube.com/watch?v=Q-__8Xw9KTM&t=5790s&ab_channel=TechWithTim
 
 ## Instructions to test the game
